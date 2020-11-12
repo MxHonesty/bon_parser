@@ -37,9 +37,8 @@ class Processor:
 
 		counter = 0
 		for x in textList:
-
 			x = x.lower()
-			#print(x)	# Linie pentru DEBUG
+			print(x)	# Linie pentru DEBUG
 			if counter == 0:
 				data["Place"].append(x)
 
