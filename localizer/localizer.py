@@ -2,6 +2,7 @@
 import pytesseract as pt
 import cv2
 
+
 class Localizer:
     """ Clasa care se ocupa cu obtinerea textului din imaginea data. """
     def __init__(self, img):
