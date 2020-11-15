@@ -1,4 +1,3 @@
-from PIL import Image
 import pytesseract
 import cv2
 import re
@@ -11,12 +10,11 @@ class Processor:
 		""" Initializam tesseract din constructor. """
 		pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
-	def get_data(self, filename):
+	def get_data(self, img):
 		""" Metoda determina informatiile relevante din imaginea data.
-			Date de intrare: filename (path la fisier)
+			Date de intrare: img instanta a clasei Image
 			Date de iesire: dictionar cu valorile relevante. """
-		# https://github.com/muratlutfigoncu
-		text = pytesseract.image_to_string(Image.open(filename))
+		text = pytesseract.image_to_string(img)
 
 		textList = text.split('\n')
 
