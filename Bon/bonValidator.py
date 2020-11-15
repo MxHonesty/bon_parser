@@ -9,6 +9,7 @@ class ValidatorBon:
         """ Metoda valideaza un bon.
             Date de intrare: instanta a clasei Bon.
             Date de iesire: True daca bonul este valid, False altfel. """
+        return True # Momentan True mereu pentru debug. 
         cif = bon.get_cif()
         firma = bon.get_firma()
         data = bon.get_data()

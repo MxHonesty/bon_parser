@@ -7,13 +7,13 @@ class Scriitor:
     def __init__(self):
         """ Initializeaza instanta a clasei Workbook pentru lucrul cu
             documentul excel. """
-        self.__workbook = self.__load_template("model")
-        self.__sheet = self.__workbook.active
+        self.__reset_document()
         
         self.__pozitie_data = ["G4", "H4", "I4"]
         self.__pozitie_total = ["K7"]
         self.__pozitie_informatii = ["B2"]
-        self.__pozitie_produse = ["C7", "C8", "C9", "C10", "C11", "C12", "C13", "C14", "C15", "C16"]
+        self.__pozitie_produse = ["G7", "G8", "G9", "G10", "G11", "G12", "G13", "G14", "G15", "G16"]
+        self.__pozitie_bunuri = ["C7", "C8", "C9", "C10", "C11", "C12", "C13", "C14", "C15", "C16"]
         
     def __load_template(self, name):
         """ Obtine instanta a clasei Workbook pentru modelul de excel dat. """
@@ -29,17 +29,26 @@ class Scriitor:
             Date de intrare: instanta valida a clasie bon. 
             Raises ValueError daca bonul nu este valid. """
         if ValidatorBon.validare_bon(bon):
-            self.__scrie_pozitie(self.__pozitie_data[0], int(bon.get_data()[:2]))
-            self.__scrie_pozitie(self.__pozitie_data[1], int(bon.get_data()[3:5]))
-            self.__scrie_pozitie(self.__pozitie_data[2], int(bon.get_data()[6:]))
+            self.__scrie_pozitie(self.__pozitie_data[0], bon.get_data()[:2])
+            self.__scrie_pozitie(self.__pozitie_data[1], bon.get_data()[3:5])
+            self.__scrie_pozitie(self.__pozitie_data[2], bon.get_data()[6:])
             self.__scrie_pozitie(self.__pozitie_informatii[0], "UNITATEA: {}\nCod fiscal: {}".format(bon.get_firma(),
                                                                                                      bon.get_cif()))
-            self.__scrie_pozitie(self.__pozitie_total[0], float(bon.get_pret_total()))
+            self.__scrie_pozitie(self.__pozitie_total[0], bon.get_pret_total())
             for poz_el, el in enumerate(bon.get_preturi()):
                 self.__scrie_pozitie(self.__pozitie_produse[poz_el], el)
+            for poz_el, el in enumerate(bon.get_bunuri()):
+                self.__scrie_pozitie(self.__pozitie_bunuri[poz_el], el)
             self.__save_document(filename)
+            self.__reset_document()
         else:
+            self.__reset_document()
             raise ValueError("Bon invalid!")
+    
+    def __reset_document(self):
+        """ Functia reseteaza stadiul documentului la cel din model. """
+        self.__workbook = self.__load_template("model")
+        self.__sheet = self.__workbook.active
             
     def __scrie_pozitie(self, pozitie, text):
         """ Functia scrie text pe pozitia pozitie din document.

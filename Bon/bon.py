@@ -3,14 +3,16 @@
 
 class Bon:
     """ Determina detaliile semnificative din imagine. """
-    def __init__(self, firma, cif, preturi, pret_total, data):
+    def __init__(self, firma, cif, preturi, bunuri, pret_total, data):
         """ Constructor primeste firma, cif, pret_total, data ca string,
             preturi ca lista de string-uri."""
         self.__firma = firma
         self.__cif = cif
         self.__preturi = self.__formatare_lista_produse(preturi)
+        self.__bunuri = bunuri
         self.__pret_total = self.__formatare_pret(pret_total)
         self.__data = self.__formatare_data(data)
+        print(bunuri)
         
     def __formatare_data(self, data):
         """ Formateaza data in functie de modul in care este scrisa. """
@@ -37,8 +39,14 @@ class Bon:
         if "total " in total:
             total = total[6:]
             total = total.replace(" ", "")
+        if "le!" in total:
+            total = total.replace("le!", "")
         return total
     
+    def get_bunuri(self):
+        """ Returneaza lista de bunuri. """
+        return self.__bunuri
+            
     def get_firma(self):
         """ Returneaza numele firmei. """
         return self.__firma
