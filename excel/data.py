@@ -6,7 +6,7 @@ class Data:
         """ Constructorul primeste cate o lista pentru fiecare membru.
             Completa este True daca toate campurile au cel putin cate o valoare. """
         self.__amount = Data.__parse_data(amount)
-        self.__date = Data.__parse_data(date)
+        self.__date = date
         self.__receipt = Data.__parse_data(receipt)
         self.__place = [Data.__parse_data(place)[0]]
         self.__preturi = Data.__parse_data(preturi)
@@ -19,6 +19,7 @@ class Data:
         return self.__amount[0]
 
     def get_date(self):
+        print(self.__date)
         if Data.is_empty(self.__amount): 
             return ""
         return self.__date[0]
@@ -66,7 +67,7 @@ class Data:
         if Data.is_empty(self.__place):
             self.__place = Data.__parse_data([new_data.get_place()])
         if Data.is_empty(self.__preturi):
-            self.__preturi = Data.__parse_data(new_data.get_preturi())
+            self.__preturi = new_data.get_preturi()
         if Data.is_empty(self.__bunuri):
             self.__bunuri = Data.__parse_data(new_data.get_bunuri())
         self.__completa = self.__este_valid()
