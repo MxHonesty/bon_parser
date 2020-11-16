@@ -1,7 +1,7 @@
 import pytesseract
 import cv2
 import re
-
+from excel.data import Data
 
 class Processor:
 	""" Clasa care proceseaza imaginea si obtine informatiile relevante din
@@ -22,7 +22,7 @@ class Processor:
 		date_Regex 		 = re.compile(".*(data|DATA){1}.*\d{2}(\/|\.|\-|\—)\d{2}.*(\/|\.|\-|\—).*\d{2,4}.*")
 		receipt_No_Regex = re.compile(".*(cod identificare fiscala|c.i.f.|cif|cod Fiscal){1}.*:")
 		amount_Regex 	 = re.compile(".*(total|TOTAL|subtotal|SUBTOTAL|total lei|TOTAL LEI|LEI|lei){1}.*\d,*\d")
-		bunuri_Regex 	 = re.compile(".*\d.*(X|x){1}.*\d,*\d")
+		bunuri_Regex 	 = re.compile(".*\d.*(X|x){1}.*\d(.|,){1}\d*")
 
 		data = {
 
@@ -69,4 +69,7 @@ class Processor:
 			if len(data[el]) == 0:
 				data[el].append("")
 			counter += 1
-		return data
+			
+		data_final = Data(data["Amount"], data["Date"], data["Receipt Number"],
+						  data["Place"], data["Preturi"], data["Bunuri"])
+		return data_final
